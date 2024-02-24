@@ -56,20 +56,30 @@ bot.on("message", (msg) => {
         }).then(() => {
             bot.once("message", (msg) => {
                 const { id } = msg.chat;
-                bot.sendMessage(id, "Telefon raqamingizni yuboring ✉️", {
+                const ism = msg.text.trim();
+                bot.sendMessage(id, "Telefon raqamingizni yuboring, yoki aloqa uchun boshqa raqamni junatmoqchi bo'lsangiz uni yozing. Namuna: +998900010290 ✉️", {
                     reply_markup: {
                         keyboard: [[{ text: "Telefon raqamni yuborish", request_contact: true }]],
                         resize_keyboard: true
                     }
+                }).then(() => {
+                    bot.once("message", (msg) => {
+                        const { id } = msg.chat;
+                        const telRaqam = msg.text.trim();
+                        const uzRaqam = /^\+998[0-9]{9}$/;
+                        if (!uzRaqam.test(telRaqam)) {
+                            bot.sendMessage(id, "Xatolik! Iltimos, to'g'ri raqamni yuboring.", {
+                                reply_markup: {
+                                    remove_keyboard: true
+                                }
+                            });
+                        }
+                    });
                 });
             });
         });
     }
 });
-
-
-
-
 
 
 
