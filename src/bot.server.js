@@ -73,7 +73,13 @@ bot.on("message", (msg) => {
                         if (msg.contact) {
                             userMalumot["Telefon"] = msg.contact.phone_number;
                         } else {
-                            userMalumot["Telefon"] = msg.text.trim();
+                            const telefonRaqami = msg.text.trim();
+                            if (/^\+998\d{9}$/.test(telefonRaqami)) {
+                                userMalumot["Telefon"] = telefonRaqami;
+                            } else {
+                                bot.sendMessage(id, "Raqam yuborishda xatolik mavjud, masalan, +998901234567");
+                                return;
+                            }
                         }
                         let malumotString = "";
                         for (const key in userMalumot) {
@@ -81,15 +87,17 @@ bot.on("message", (msg) => {
                                 malumotString += `${key}: ${userMalumot[key]}\n`;
                             }
                         }
-                        bot.sendMessage(id, `Ma'lumotlar:\n${malumotString}`);
+                        bot.sendMessage(id, `Ma'lumotlar:\n${malumotString}`, {
+                            reply_markup: {
+                                remove_keyboard: true
+                            }
+                        });
                     });
                 });
             });
         });
     }
 });
-
-
 
 
 
