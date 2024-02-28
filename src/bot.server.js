@@ -68,36 +68,36 @@ bot.on("message", (msg) => {
                         resize_keyboard: true
                     }
                 }).then(() => {
-                    bot.once("message", (msg) => {
+                    bot.on("message", (msg) => {
                         const { id } = msg.chat;
                         if (msg.contact) {
                             userMalumot["Telefon"] = msg.contact.phone_number;
+                            nechtaInson(id)
                         } else {
                             const telefonRaqami = msg.text.trim();
                             if (/^\+998\d{9}$/.test(telefonRaqami)) {
                                 userMalumot["Telefon"] = telefonRaqami;
+                                nechtaInson(id);
                             } else {
                                 bot.sendMessage(id, "Raqam yuborishda xatolik mavjud, masalan, +998901234567");
                                 return;
                             }
                         }
-                        let malumotString = "";
-                        for (const key in userMalumot) {
-                            if (userMalumot.hasOwnProperty(key)) {
-                                malumotString += `${key}: ${userMalumot[key]}\n`;
-                            }
-                        }
-                        bot.sendMessage(id, `Ma'lumotlar:\n${malumotString}`, {
-                            reply_markup: {
-                                remove_keyboard: true
-                            }
-                        });
                     });
-                });
+                })
             });
         });
     }
 });
+
+function nechtaInson(id) {
+    bot.sendMessage(id, "Siz bir o'zingizmisiz yoki hamrohingiz bormi? \nNechi kishi ekanligingizni raqam bilan belgilang. \nO'zingiz bo'lsangiz 1 raqamini yuboring 😊" , {
+        reply_markup: {
+            remove_keyboard: true
+        }
+    })
+}
+
 
 
 
