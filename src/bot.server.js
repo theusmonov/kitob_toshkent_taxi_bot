@@ -80,7 +80,6 @@ bot.on("message", (msg) => {
                                 nechtaInson(id);
                             } else {
                                 bot.sendMessage(id, "Raqam yuborishda xatolik mavjud, masalan, +998901234567");
-                                return;
                             }
                         }
                     });
@@ -89,7 +88,6 @@ bot.on("message", (msg) => {
         });
     }
 });
-
 function nechtaInson(id) {
     bot.sendMessage(id, "Siz bir o'zingizmisiz yoki hamrohingiz bormi? \nNechi kishi ekanligingizni raqam bilan belgilang. \nO'zingiz bo'lsangiz 1 raqamini yuboring 😊" , {
         reply_markup: {
@@ -97,6 +95,7 @@ function nechtaInson(id) {
         }
     })
 }
+
 
 
 
