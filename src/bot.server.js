@@ -73,14 +73,6 @@ bot.on("message", (msg) => {
                         if (msg.contact) {
                             userMalumot["Telefon"] = msg.contact.phone_number;
                             nechtaInson(id)
-                        } else {
-                            const telefonRaqami = msg.text.trim();
-                            if (/^\+998\d{9}$/.test(telefonRaqami)) {
-                                userMalumot["Telefon"] = telefonRaqami;
-                                nechtaInson(id);
-                            } else {
-                                bot.sendMessage(id, "Raqam yuborishda xatolik mavjud, masalan, +998901234567");
-                            }
                         }
                     });
                 })
@@ -91,10 +83,31 @@ bot.on("message", (msg) => {
 function nechtaInson(id) {
     bot.sendMessage(id, "Siz bir o'zingizmisiz yoki hamrohingiz bormi? \nNechi kishi ekanligingizni raqam bilan belgilang. \nO'zingiz bo'lsangiz 1 raqamini yuboring 😊" , {
         reply_markup: {
-            remove_keyboard: true
+            keyboard: [[{text : "O'zim"}, {text: "1 ta hamroh"}],
+                [{text: "2 ta hamroh"}, {text: "3 ta hamroh"}]
+            ],
+            resize_keyboard : true
         }
     })
 }
+
+bot.on("message", (msg) => {
+    const {id} = msg.chat;
+    if (msg.text === "O'zim" || msg.text === "1 ta hamroh" || msg.text === "2 ta hamroh" || msg.text === "3 ta hamroh") {
+        bot.sendMessage(id, "Javob uchun rahmat! \n\nQaysi vaqt oralig'ida ketmoqchisiz.", {
+            reply_markup: {
+                keyboard: [
+                    [{text: "Hozir"}],
+                    [{text: "07:00 dan"}, {text: "12:00 orasida"}],
+                    [{text: "13:00 dan "}, {text: "17:00 orasida"}],
+                    [{text: "19:00 dan "}, {text: "24:00 orasida"}],
+                ]
+            }
+        });
+    }
+});
+
+
 
 
 
