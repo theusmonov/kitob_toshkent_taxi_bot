@@ -51,7 +51,7 @@ bot.on("message", (msg) => {
 
 
 bot.on("message", (msg) => {
-    const { id } = msg.chat;
+    const {id} = msg.chat;
     if (msg.text === "Toshkent" || msg.text === "Qashqadaryo") {
         userMalumot["Borish manzili"] = msg.text;
         bot.sendMessage(id, "Ismingizni yozing ✍️", {
@@ -60,16 +60,16 @@ bot.on("message", (msg) => {
             }
         }).then(() => {
             bot.once("message", (msg) => {
-                const { id } = msg.chat;
+                const {id} = msg.chat;
                 userMalumot["Ismi"] = msg.text.trim();
                 bot.sendMessage(id, "Telefon raqamingizni yuboring, yoki aloqa uchun boshqa raqamni junatmoqchi bo'lsangiz uni yozing. Namuna: +998900010290 ✉️", {
                     reply_markup: {
-                        keyboard: [[{ text: "Telefon raqamni yuborish", request_contact: true }]],
+                        keyboard: [[{text: "Telefon raqamni yuborish", request_contact: true}]],
                         resize_keyboard: true
                     }
                 }).then(() => {
                     bot.on("message", (msg) => {
-                        const { id } = msg.chat;
+                        const {id} = msg.chat;
                         if (msg.contact) {
                             userMalumot["Telefon"] = msg.contact.phone_number;
                             nechtaInson(id)
@@ -80,32 +80,43 @@ bot.on("message", (msg) => {
         });
     }
 });
+
 function nechtaInson(id) {
-    bot.sendMessage(id, "Siz bir o'zingizmisiz yoki hamrohingiz bormi? \nNechi kishi ekanligingizni raqam bilan belgilang. \nO'zingiz bo'lsangiz 1 raqamini yuboring 😊" , {
+    bot.sendMessage(id, "Siz bir o'zingizmisiz yoki hamrohingiz bormi? \nNechi kishi ekanligingizni raqam bilan belgilang. \nO'zingiz bo'lsangiz 1 raqamini yuboring 😊", {
         reply_markup: {
-            keyboard: [[{text : "O'zim"}, {text: "1 ta hamroh"}],
+            keyboard: [[{text: "O'zim"}, {text: "1 ta hamroh"}],
                 [{text: "2 ta hamroh"}, {text: "3 ta hamroh"}]
             ],
-            resize_keyboard : true
+            resize_keyboard: true
         }
     })
 }
 
 bot.on("message", (msg) => {
-    const {id} = msg.chat;
+    const { id } = msg.chat;
     if (msg.text === "O'zim" || msg.text === "1 ta hamroh" || msg.text === "2 ta hamroh" || msg.text === "3 ta hamroh") {
-        bot.sendMessage(id, "Javob uchun rahmat! \n\nQaysi vaqt oralig'ida ketmoqchisiz.", {
+        bot.sendMessage(id, "Javob uchun rahmat! \n\nQaysi sana va vaqtda ketmoqchisiz yozib jo'nating. \nNamuna: 04.04.2024, 13:00", {
             reply_markup: {
-                keyboard: [
-                    [{text: "Hozir"}],
-                    [{text: "07:00 dan"}, {text: "12:00 orasida"}],
-                    [{text: "13:00 dan "}, {text: "17:00 orasida"}],
-                    [{text: "19:00 dan "}, {text: "24:00 orasida"}],
-                ]
+                remove_keyboard: true
             }
+        }).then(() => {
+            bot.once("message", (msg) => {
+                bot.sendMessage(id, "Lokatsiyani jo'natishni bosing: \nSizni qayerdan olib ketishsin. \n\nTelefon gps qurilmasi yoqilganda siz turgan hozirgi manzil avtomatik jo'natiladi, yoki bo'lmasa boshqa manzilni belgilab  jo'nating ", {
+                    reply_markup: JSON.stringify({
+                        keyboard: [
+                            [{text: 'Location Request', request_location: true}],
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true,
+                    })
+                })
+            });
         });
     }
 });
+
+
+
 
 
 
