@@ -105,18 +105,39 @@ bot.on("message", (msg) => {
                                 malumotString += `*${key}*: ${userMalumot[key]}\n`
                             }
                         }
-                        bot.sendMessage(id, `*Ma'lumotlar*:\n${malumotString}`, {
+                        bot.sendMessage(id, `*Ma'lumotlar to'g'rimi? ha yoki yo'q tugmasini bosing. *\n\n${malumotString}`, {
                             parse_mode: "Markdown",
                             reply_markup: {
-                                remove_keyboard: true
+                                keyboard: [
+                                    [{text: "Ha"}, {text: "Yo'q"}]
+                                ],
+                                resize_keyboard :true
                             }
-                        });
+                        }).then(() => {
+                            bot.on("message", (msg) => {
+                                const {id} = msg.chat
+                                if(msg.text === "Ha"){
+                                    bot.sendMessage(id,"Buyurtma haydovchilar guruhiga jo'natildi", {
+                                        reply_markup: {
+                                            remove_keyboard:  true
+                                        }
+                                    })
+                                } else {
+                                    bot.sendMessage(id,"Buyurtma bekor qilindi!", {
+                                        reply_markup: {
+                                            remove_keyboard:  true
+                                        }
+                                    })
+                                }
+                            })
+                        })
                     })
                 })
             });
         });
     }
 });
+
 
 
 
