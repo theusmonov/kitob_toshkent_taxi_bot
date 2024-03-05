@@ -111,21 +111,25 @@ bot.on("message", (msg) => {
                                 keyboard: [
                                     [{text: "Ha"}, {text: "Yo'q"}]
                                 ],
-                                resize_keyboard :true
+                                resize_keyboard: true
                             }
                         }).then(() => {
-                            bot.on("message", (msg) => {
+                            bot.once("message", (msg) => {
                                 const {id} = msg.chat
-                                if(msg.text === "Ha"){
-                                    bot.sendMessage(id,"Buyurtma haydovchilar guruhiga jo'natildi", {
+                                if (msg.text === "Ha") {
+                                    bot.sendMessage(id, "Buyurtma haydovchilar guruhiga jo'natildi. Buyurtmangizni buyurtmalarim bo'limida ko'rishingiz mumkin.", {
                                         reply_markup: {
-                                            remove_keyboard:  true
+                                            keyboard: [
+                                                [{text: "Boshiga qaytish"}]
+                                            ],
+                                            resize_keyboard: true
                                         }
                                     })
                                 } else {
-                                    bot.sendMessage(id,"Buyurtma bekor qilindi!", {
+                                    bot.sendMessage(id, "Buyurtma bekor qilindi!", {
                                         reply_markup: {
-                                            remove_keyboard:  true
+                                            keyboard: [[{text: "Yo'lovchi sifatida"}, {text: "Pochta yuborish"}], [{text: "Buyurtmalarim"}]],
+                                            resize_keyboard: true
                                         }
                                     })
                                 }
@@ -135,8 +139,20 @@ bot.on("message", (msg) => {
                 })
             });
         });
+    } else if (msg.text === "Boshiga qaytish") {
+        bot.sendMessage(id, "Botning kirish qismiga qaytildi", {
+            reply_markup: {
+                keyboard: [
+
+                        [{ text: "Yo'lovchi sifatida" }, { text: "Pochta yuborish" }],
+                        [{ text: "Buyurtmalarim" }]
+                ],
+                resize_keyboard: true
+            }
+        });
     }
 });
+
 
 
 
